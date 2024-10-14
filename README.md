@@ -2,7 +2,9 @@
 
 ## GOAL
 
-In this exercise, students will deploy a Kubernetes cluster locally to manage an application that retrieves and stores electrical consumption data, forecasts future consumption, and presents both historical and projected consumption trends. As a fundamental component, students will replicate the local database.
+In this exercise, students will deploy a Kubernetes cluster locally to manage an application that retrieves and stores electrical consumption data, forecasts future consumption, and presents both historical and projected consumption trends.
+
+The electrical consumption is reprsented by a a CSV file stored on S3. This CSV file has 11 columns. The first column is the time stamp. The other ten columns each represent the power measurements (P) of a smart meter's electricity consumption. Measurements are taken every 15 minutes. A row in the CSV file therefore corresponds to the power measurement at a given time t (HH:00, HH:15, HH:30. HH:45) for the 10 smart meters.
 
 
 ## Example Architecture
@@ -17,7 +19,7 @@ Kind (Kubernetes in Docker) is a tool designed to facilitate the running of loca
 
 ### Data Retrieval
 
-Data Retrieval is a Python program that reads an S3 bucket, retrieves and reads a CSV file, and writes the data into a Redis database. **This program is run only once to ingest data into the system**. It the 10 devices from the CSV and inserts them into Redis as a RedisTimeSeries dataset. It also creates a Redis Queue with Device ID, which is used to retrieve from the RedisTimeSeries  (if possible, it sets a key-value structure in the queue [id, RedisTimeSeries]).
+Data Retrieval is a Python program that reads the S3 bucket where the CSV file is stored. It then writes the data into a Redis database. **This program is run only once to ingest data into the system**. It reads the 10 devices (smart meters) electrical consumption from the CSV and inserts them into Redis as a RedisTimeSeries dataset. It also creates a Redis Queue with Device ID, which is used to retrieve from the RedisTimeSeries  (if possible, it sets a key-value structure in the queue [id, RedisTimeSeries]).
 
 ### Forecast
 
