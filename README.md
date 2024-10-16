@@ -39,7 +39,7 @@ Grafana is an analytics visualization platform which will be used to visualize t
 
 ### Setup
 1. Clone this repository and create an account on [Docker Hub](https://hub.docker.com).
-2. Install [Docker](https://docs.docker.com/engine/install/) and [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
+2. Install [Docker](https://docs.docker.com/engine/install/) and [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/). If you are installing Kind on Mac, use brew tool: brew install kind. The Installation instructions on MacOS available on [this page](https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries) do not work. 
 4. Create a [Kind configuration file](https://kind.sigs.k8s.io/docs/user/quick-start/#multi-node-clusters) composed of one control-plane node, and 5 worker nodes
 5. Create a cluster using the configuration file
 6. Setup kubectl - the default Kubernetes CLI tool - [to interact with the Kind Cluster](https://kind.sigs.k8s.io/docs/user/quick-start/#interacting-with-your-cluster).
