@@ -130,7 +130,7 @@ Build the Data Retrieval docker, complete the file "data-retrieval-deployment.ya
 
 
 
-## Task 5: Load Balancer
+### Task 5: Load Balancer
 
 Kubernetes provides Load Balancing capabilities natively. This permits the distribution of load between several replicas of the same pod. But, as we are deploying using kind, to access this ability we have to create a port-forward between the service and the host device:
 
