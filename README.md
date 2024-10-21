@@ -34,11 +34,7 @@ Redis is an in-memory database largely used as a cache. In this case, we’ll us
 
 Grafana is an analytics visualization platform which will be used to visualize the historical and forecasted data being processed. It connects to Redis and displays the RedisTimeSeries as a line graph, showing passed and future power consumption.
 
-## Composition
-
-## Steps
-
-### Setup
+## Setup
 1. Clone this repository and create an account on [Docker Hub](https://hub.docker.com).
 2. Install [Docker](https://docs.docker.com/engine/install/) and [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/). If you are installing Kind on Mac, use brew tool: brew install kind. The Installation instructions on MacOS available on [this page](https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries) do not work. 
 4. Create a [Kind configuration file](https://kind.sigs.k8s.io/docs/user/quick-start/#multi-node-clusters) composed of one control-plane node, and 5 worker nodes
@@ -73,11 +69,11 @@ service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3h37m
 
 You are ready to deploy services to your cluster.
 
-### Deployment Files
+## Deployment Files
 
 Kubernetes services can be deployed using Deployment Files, `YAML` files that describe how and where a service should be deployed. In this repositiory you have a folder called `deployment` which has the following structure:
 ```bash
-|- depèloyment/
+|- deployment/
 |---- data-retreival/
 |---- forcast/
 |---- data-retrieval-deployment.yaml
