@@ -2,22 +2,25 @@
 
 ## GOAL
 
-In this exercise, students will deploy a Kubernetes cluster locally to manage an application that retrieves and stores electrical consumption data, forecasts future consumption, and presents both historical and projected consumption trends. As a fundamental component, students will replicate the local database.
+In this exercise, students will deploy a Kubernetes cluster locally to manage an application that retrieves and stores electrical consumption data, forecasts future consumption, and presents both historical and projected consumption trends.
 
+The electrical consumption is reprsented by a a CSV file stored on S3. This CSV file has 11 columns. The first column is the time stamp. The other ten columns each represent the power measurements (P) of a smart meter's electricity consumption. Measurements are taken every 15 minutes. A row in the CSV file therefore corresponds to the power measurement at a given time t (HH:00, HH:15, HH:30. HH:45) for the 10 smart meters. The measures cover the period 04.01.2021 - 31.12.2022.
 
-## Example Architecture
+The application will be deployed on a local kubernetes cluster created using the [kind] (https://kind.sigs.k8s.io/) tool.
+
+## Kind
+
+Kind (Kubernetes in Docker) is a tool designed to facilitate the running of local Kubernetes clusters using Docker containers as nodes.  It simplifies the process of setting up a Kubernetes cluster by eliminating the need for virtual machines or cloud infrastructure, making it accessible and efficient for developers and testers. With kind, clusters can be created, managed, and deleted using straightforward commands, allowing for quick iterations and experiments. Its flexibility supports multi-node clusters, enabling realistic testing scenarios and the development of distributed applications in an environment closely resembling production. For further detail you can read this [web site](https://kind.sigs.k8s.io/).
+
+## The application
+
+The application to deploy is composed of 4 modules: Data Retrieval, Forecast, Redis and Grafana. The figure below describes how these 4 modules interact and how they are deployed.
 
 ![K8S Architecture to Be Deployed](KubernetesClass.png)
 
-## Kubernetes in Docker (Kind)
-
-Kind (Kubernetes in Docker) is a tool designed to facilitate the running of local Kubernetes clusters using Docker containers as nodes.  It simplifies the process of setting up a Kubernetes cluster by eliminating the need for virtual machines or cloud infrastructure, making it accessible and efficient for developers and testers. With kind, clusters can be created, managed, and deleted using straightforward commands, allowing for quick iterations and experiments. Its flexibility supports multi-node clusters, enabling realistic testing scenarios and the development of distributed applications in an environment closely resembling production.
-
-## Programs
-
 ### Data Retrieval
 
-Data Retrieval is a Python program that reads an S3 bucket, retrieves and reads a CSV file, and writes the data into a distributed Redis database. **This program is run only once to ingest data into the system**. It the 10 devices from the CSV and inserts them into Redis as a RedisTimeSeries dataset. It also creates a Redis Queue with Device ID, which is used to retrieve from the RedisTimeSeries  (if possible, it sets a key-value structure in the queue [id, RedisTimeSeries]).
+Data Retrieval is a Python program that reads the S3 bucket where the CSV file is stored. It then writes the data into a Redis database. **This program is run only once to ingest data into the system**. It reads the 10 devices (smart meters) electrical consumption from the CSV and inserts them into Redis as a RedisTimeSeries dataset. It also creates a Redis Queue with Device ID, which is used to retrieve from the RedisTimeSeries  (if possible, it sets a key-value structure in the queue [id, RedisTimeSeries]).
 
 ### Forecast
 
@@ -37,8 +40,7 @@ Grafana is an analytics visualization platform which will be used to visualize t
 
 ### Setup
 1. Clone this repository and create an account on [Docker Hub](https://hub.docker.com).
-2. Install [Docker](https://docs.docker.com/engine/install/) and [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
-3. Create a folder or a repository
+2. Install [Docker](https://docs.docker.com/engine/install/) and [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/). If you are installing Kind on Mac, use brew tool: brew install kind. The Installation instructions on MacOS available on [this page](https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries) do not work. 
 4. Create a [Kind configuration file](https://kind.sigs.k8s.io/docs/user/quick-start/#multi-node-clusters) composed of one control-plane node, and 5 worker nodes
 5. Create a cluster using the configuration file
 6. Setup kubectl - the default Kubernetes CLI tool - [to interact with the Kind Cluster](https://kind.sigs.k8s.io/docs/user/quick-start/#interacting-with-your-cluster).
@@ -69,14 +71,6 @@ NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3h37m
 ```
 
-#### Creating a Secret Key
-
-```bash
-kubectl create secret generic aws-secret \
-  --from-literal=AWS_ACCESS_KEY_ID=<Your access key> \
-  --from-literal=AWS_SECRET_ACCESS_KEY=<your secret key>
-```
-
 You are ready to deploy services to your cluster.
 
 ### Deployment Files
@@ -105,8 +99,6 @@ Both the `data-retrieval` and `forecast` folders have the following structure:
 |---- Dockerfile
 ```
 
-The `main.py` file has some functions that need to be finished before the container is build. Also, the `Dockerfile` needs to be completed, and a container be created and pushed to Docker Hub. 
-
 ## Deployment
 
 The application needs to be deployed in the following order:
@@ -116,18 +108,29 @@ The application needs to be deployed in the following order:
 
 If the order isn't followed, there will be several errors happening. `Redis` needs to be the first to be deployed as both the `Data-Retrieval` and `Forecast` are dependant on it. 
 
-## Exercises
+## Tasks
 
-1. Install, configure and deploy Kind
-2. Finish both the `data-retrieval` and the `forecast` code. WARNING: make sure to only finish what is asked in the code. Do not change anything else.
-3. Create the Dockerfile for both the `data-retrieval` and `forecast`. 
-    a. Build the containers.
-    b. Push the containers to Docker Hub
-4. Finish the kubernetes deployment files
-5. Deploy the application
-6. Build a Grafana dashboard to visualize the forecasted data.
+### Task 1: redis deployment
 
-## Load Balancer
+### Task 2: Data Retrieval deployment
+
+Read the data-retrieval-deployment.yaml carefully and spot the name of the secrets used. This secrets must be generated by this command:
+
+```bash
+kubectl create secret generic <name-of-the-secrets> \
+  --from-literal=AWS_ACCESS_KEY_ID=<Your access key> \
+  --from-literal=AWS_SECRET_ACCESS_KEY=<your secret key>
+```
+Build the Data Retrieval docker, complete the file "data-retrieval-deployment.yaml" and deploy data-retrieval module.
+
+### Task 3: Forecast deployment
+
+
+### Task 4: Grafana deployment
+
+
+
+### Task 5: Load Balancer
 
 Kubernetes provides Load Balancing capabilities natively. This permits the distribution of load between several replicas of the same pod. But, as we are deploying using kind, to access this ability we have to create a port-forward between the service and the host device:
 
