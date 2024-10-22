@@ -16,7 +16,7 @@ Kind (Kubernetes in Docker) is a tool designed to facilitate the running of loca
 
 The application to deploy is composed of 4 modules: Data Retrieval, Forecast, Redis and Grafana. The figure below describes how these 4 modules interact and how they are deployed.
 
-![K8S Architecture to Be Deployed](KubernetesClass.png)
+![K8S Architecture to Be Deployed](1.png)
 
 ### Data Retrieval
 
