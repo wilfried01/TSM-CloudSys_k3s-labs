@@ -2,11 +2,11 @@
 
 ## GOAL
 
-In this exercise, students will deploy a Kubernetes cluster locally to manage an application that retrieves and stores electrical consumption data, forecasts future consumption, and presents both historical and projected consumption trends.
+In this exercise, students will locally deploy a Kubernetes cluster. This K8S cluster will be used to manage an application which retrieves and stores electrical consumption data, forecasts future consumption, and presents both historical and projected consumption trends.
 
-The electrical consumption is reprsented by a a CSV file stored on S3. This CSV file has 11 columns. The first column is the time stamp. The other ten columns each represent the power measurements (P) of a smart meter's electricity consumption. Measurements are taken every 15 minutes. A row in the CSV file therefore corresponds to the power measurement at a given time t (HH:00, HH:15, HH:30. HH:45) for the 10 smart meters. The measures cover the period 01.01.2021 - 31.05.2022.
+The electrical consumption is represented by a a CSV file stored on S3. This CSV file has 11 columns. The first column is the time stamp. The other ten columns each represent the power measurements (P) of a smart meter's electricity consumption. Measurements are taken every 15 minutes. A row in the CSV file therefore corresponds the power measurement at a given time t (HH:00, HH:15, HH:30. HH:45) for the 10 smart meters. The measures cover the period 01.01.2021 - 31.05.2022.
 
-The application will be deployed on a local kubernetes cluster created using the [kind] (https://kind.sigs.k8s.io/) tool.
+The application is to be deployed on a local kubernetes cluster created using the [kind] (https://kind.sigs.k8s.io/) tool.
 
 ## Kind
 
