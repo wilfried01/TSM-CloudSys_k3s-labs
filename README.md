@@ -24,7 +24,7 @@ Data Retrieval is a Python program that reads the S3 bucket where the CSV file i
 
 ### Forecast
 
-Based on the data provided, forecasts X amounts of days in the future. It utilizes LSTM to forecast based on historical data from Groupe E. It will create as many instances as devices in the database (in this case, it will be capped at 10 instances/devices). Every minute, it will forecast the following day, storing the result in the database as a RedisTimeSeries.
+Based on the data provided, the **Forecast** module forecasts X amounts of days in the future. It uses the LSTM Machine learning algorithm. The goal here is to create as many instances as devices in the database. Every minute, we will be forecasting the following day, storing the result in the database as a RedisTimeSeries.
 
 ### Redis
 
@@ -32,7 +32,7 @@ Redis is an in-memory database largely used as a cache. In this case, we’ll us
 
 ### Grafana
 
-Grafana is an analytics visualization platform which will be used to visualize the historical and forecasted data being processed. It connects to Redis and displays the RedisTimeSeries as a line graph, showing passed and future power consumption.
+Grafana is an analytics visualization platform used to visualize the historical and forecasted data being processed. It connects to Redis and displays the RedisTimeSeries as a line graph, showing passed and future power consumption.
 
 ## Setup
 1. Clone this repository and create an account on [Docker Hub](https://hub.docker.com).
@@ -43,7 +43,7 @@ Grafana is an analytics visualization platform which will be used to visualize t
 
 Kind will create a cluster by deploying a docker container for each node in the cluster. Each container will have a kubernetes runtime, and kind will setup the required networking to make the cluster work.
 
-At this point, you should be able visualize your cluster by running:
+At this point, you should be able visualise your cluster by running:
 
 ```bash
 docker ps
