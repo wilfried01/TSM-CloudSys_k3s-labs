@@ -98,7 +98,7 @@ Both the `data-retrieval` and `forecast` folders have the following structure:
 ### Task 1: Redis deployment
 
 1. Fill the redis-deployment.yaml
-2. Dploy the redis module using kubectl.
+2. Deploy the redis module using kubectl.
 
 ### Task 2: Data Retrieval deployment
 
@@ -110,7 +110,7 @@ kubectl create secret generic <name-of-the-secrets> \
   --from-literal=AWS_SECRET_ACCESS_KEY=<your secret key>
 ```
 1. Build the Data Retrieval docker and push it to your dockerhub account
-2. complete the file "data-retrieval-deployment.yaml"
+2. Complete the file "data-retrieval-deployment.yaml"
 3. Deploy the data-retrieval module using kubectl
 
 ### Task 3: Forecast deployment
