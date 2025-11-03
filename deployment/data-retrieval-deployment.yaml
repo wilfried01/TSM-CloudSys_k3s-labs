@@ -14,15 +14,15 @@ spec:
     spec:
       containers:
       - name: data-retrieval
-        image: hesgelsds/data-retrieval:1.0.2  # Replace with your Docker image name
+        image: stormit237/data-retrieval  # Replace with your Docker image name
         imagePullPolicy: Always        # Force the pull of the container image - used for testing purposes
         env:
         - name: REDIS_HOST
-          value: # To be Filled
+          value: redis.default.svc.cluster.local  # The host of the Redis service
         - name: AWS_ACCESS_KEY_ID
-          # Fill in with the Secret key value
+          value: ""  # Fill in with the Secret key value
         - name: AWS_SECRET_ACCESS_KEY
-          # Fill in with the Secret key value
+          value: ""  # Fill in with the Secret key value
       restartPolicy: Never
 
 # There is no service for this Job, because the job does not need to be accessed externally or expose any ports. 

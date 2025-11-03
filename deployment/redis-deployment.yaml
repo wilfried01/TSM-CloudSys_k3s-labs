@@ -7,7 +7,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      # fill in the correct label
+      app: redis-pod
   template:
     metadata:
       labels:
@@ -27,7 +27,7 @@ metadata:
   name: redis
 spec:
   selector:
-    # Fill with the correct label
+    app: redis-pod
   ports:
   - protocol: TCP
     port: 6379
